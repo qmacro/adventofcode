@@ -1,4 +1,4 @@
-# adventofcode
+# Advent of Code - Some Clojure Solutions
 
 I am using the excellent [Advent of Code](http://adventofcode.com/)
 to help me learn more about Clojure. This repo is an attempt to 
