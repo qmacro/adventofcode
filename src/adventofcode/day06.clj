@@ -76,11 +76,6 @@
           (assoc result coord (newval op (result coord 0)))
           (rest remaining))))))
 
-;;(defn readinput
-;;  [filename]
-;;  (-> filename slurp (clojure.string/split #"\n")))
-
-
 (defn solve
   "..."
   [& args]
