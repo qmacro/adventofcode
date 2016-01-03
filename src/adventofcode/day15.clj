@@ -49,22 +49,17 @@
        (max 0)))
 
 
-(defn solve
-  "..."
-  [& args]
-  (do
+(def key-features [:capacity :durability :flavor :texture])
 
-    ;; Part 1
-    (let [key-features [:capacity :durability :flavor :texture]]
-      (println
-        (apply max
-          (map (fn
-                 [spoon-combo]
-                 (apply * (map #(feature-score % spoon-combo facts) key-features)))
-               (four-combos 100)))))
-
-
-    ;; Part 2
-
-
-    ))
+(loop
+  [combos (four-combos 100)
+   highest 0
+   highest-500 0]
+  (if (empty? combos)
+    [highest highest-500] ;; answers for parts 1 and 2
+    (let [spoon-combo (first combos)
+          score (apply * (map #(feature-score % spoon-combo facts) key-features))
+          calories (feature-score :calories spoon-combo facts)]
+      (recur (rest combos)
+             (max highest score)
+             (if (= 500 calories) (max highest-500 score) highest-500)))))
