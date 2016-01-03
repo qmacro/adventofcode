@@ -39,7 +39,7 @@
     (and
       (not (zero? remain))
       (<= remain flytime))))
-    
+
 (defn travelled
   "Returns how far the participant has travelled in
   the given second."
@@ -59,10 +59,10 @@
         left (mod race duration)]
     (*
      (+ (* phases fly) (min fly left))
-     (participant :kms)))) 
+     (participant :kms))))
 
 
-  
+
 (defn solve
   "..."
   [& args]
@@ -72,7 +72,7 @@
     (println (apply max (map (partial distance race) facts)))
 
     ;; Part 2
-    (def points 
+    (def points
       (loop
         [n 1
          totals (take (count facts) (repeat 0))
