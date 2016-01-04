@@ -32,12 +32,38 @@
   (= (map analysis (keys attrs))
      (vals attrs)))
 
+(defn range-match?
+  "Returns whether there's a match of values for the
+  given attributes, when compared to the analysis. Range 
+  matches apply for cats & trees, and pomeranians & goldfish."
+  [attrs analysis]
+  (reduce (fn [match [attr value]]
+            (let [analysis-value (analysis attr)]
+              (case attr
+                (:cats :trees) (and match (> value analysis-value))
+                (:pomeranians :goldfish) (and match (< value analysis-value))
+                (and match (= analysis-value value)))))
+          true
+          attrs))
+
+
 (loop
   [sues (->> "resources/day16input" slurp str/split-lines)]
   (if (not (empty? sues))
     (let [attrs (sue-attrs (first sues))]
 
+      (defn the-sue [sues] (first (str/split (first sues) #":")))
+
       ;; Part 1
       (if (exact-match? attrs analysis)
-        (println (first (str/split (first sues) #":")))
-        (recur (rest sues))))))
+        (println "Part 1:" (the-sue sues)))
+
+      ;; Part 2
+      (if (range-match? attrs analysis)
+        (println "Part 2:" (the-sue sues)))
+
+      (recur (rest sues)))))
+
+
+
+
