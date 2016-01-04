@@ -27,8 +27,7 @@
 
 (loop
   [sues (->> "resources/day16input" slurp str/split-lines)]
-  (if (empty? sues)
-    "End"
+  (if (not (empty? sues))
     (let [attrs (sue-attrs (first sues))]
 
       ;; Part 1
