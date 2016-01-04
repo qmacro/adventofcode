@@ -38,11 +38,12 @@
   matches apply for cats & trees, and pomeranians & goldfish."
   [attrs analysis]
   (reduce (fn [match [attr value]]
-            (let [analysis-value (analysis attr)]
-              (case attr
-                (:cats :trees) (and match (> value analysis-value))
-                (:pomeranians :goldfish) (and match (< value analysis-value))
-                (and match (= analysis-value value)))))
+            (let [analysis-value (analysis attr)
+                  comparison (case attr
+                               (:cats :trees) >
+                               (:pomeranians :goldfish) <
+                               =)]
+              (and match (comparison value analysis-value))))
           true
           attrs))
 
