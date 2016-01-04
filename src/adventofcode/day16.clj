@@ -25,13 +25,19 @@
   [sue]
   (into {} (map (comp pairmap rest) (re-seq #"(?:(\w+): (\d+))" sue))))
 
+(defn exact-match?
+  "Returns whether there's an exact match of values for
+  the given attributes when compared to the analysis."
+  [attrs analysis]
+  (= (map analysis (keys attrs))
+     (vals attrs)))
+
 (loop
   [sues (->> "resources/day16input" slurp str/split-lines)]
   (if (not (empty? sues))
     (let [attrs (sue-attrs (first sues))]
 
       ;; Part 1
-      (if (= (map analysis (keys attrs))
-             (vals attrs))
+      (if (exact-match? attrs analysis)
         (println (first (str/split (first sues) #":")))
         (recur (rest sues))))))
