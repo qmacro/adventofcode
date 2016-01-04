@@ -32,8 +32,17 @@
   [litres [_ capacity]]
   (= capacity litres))
 
-;; Part 1
-(count
+(def good-combos
   (filter (partial will-store? 150)
           (map capacity-pair
                (combos containers))))
+
+;; Part 1
+(count good-combos)
+
+;; Part 2
+(->> (map (fn [[combo _]] (count combo)) good-combos)
+     sort
+     (partition-by identity)
+     first
+     count)
