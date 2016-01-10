@@ -54,6 +54,20 @@
   [[r c] board]
   ((board r) c))
 
+(defn cellstate-new
+  "Return the state of a cell in the board,
+  at the given row/col coord. Exceptions - the
+  cells at each corner of the board are stuck on."
+  [[r c] board]
+  (let [maxcol (dec (rowsize board))
+        maxrow (dec (colsize board))]
+    (case [r c]
+      [0 0] on
+      [0 maxcol] on
+      [maxrow 0] on
+      [maxrow maxcol] on
+      ((board r) c))))
+
 (defn out-of-bounds?
   "Whether a given cell is out of bounds
   with respect to the board edges."
@@ -98,19 +112,30 @@
     light))
 
 (defn re-form
+  "Re-form the board from flat to vec of vecs."
   [flatboard c]
   (vec (map vec (partition c flatboard))))
+
+(defn hack-corners
+  "For part 2 - not happy with this, but it'll do for now."
+  [board]
+  (let [first-inside (butlast (rest (first board)))
+        last-inside (butlast (rest (last board)))
+        new-first (vec (flatten (cons (cons on first-inside) [on])))
+        new-last (vec (flatten (cons (cons on last-inside) [on])))]
+    (vec (cons new-first (conj (vec (butlast (rest board))) new-last)))))
 
 (defn transform
   "Transform board n steps."
   [board n]
   (loop
-    [b board
+    [state board
      i n]
     (if (zero? i)
-      b
-      (let [nbrs-on (->> (coords b) (map #(neighbours-on % b)))]
+      state
+      (let [b (hack-corners state)
+            nbrs-on (map #(neighbours-on % b) (coords b))]
         (recur (re-form (map switch (flatten b) nbrs-on) (colsize b)) (dec i))))))
 
-(count (filter on? (flatten (transform board 100))))
+(defn run [] (count (filter on? (flatten (hack-corners (transform board 100))))))
 

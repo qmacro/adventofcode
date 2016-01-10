@@ -6,5 +6,6 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [digest "1.4.4"]
                  [org.clojure/math.combinatorics "0.1.1"]]
+  :main ^:skip-aot adventofcode.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
