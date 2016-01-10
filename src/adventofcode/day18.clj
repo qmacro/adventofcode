@@ -54,20 +54,6 @@
   [[r c] board]
   ((board r) c))
 
-(defn cellstate-new
-  "Return the state of a cell in the board,
-  at the given row/col coord. Exceptions - the
-  cells at each corner of the board are stuck on."
-  [[r c] board]
-  (let [maxcol (dec (rowsize board))
-        maxrow (dec (colsize board))]
-    (case [r c]
-      [0 0] on
-      [0 maxcol] on
-      [maxrow 0] on
-      [maxrow maxcol] on
-      ((board r) c))))
-
 (defn out-of-bounds?
   "Whether a given cell is out of bounds
   with respect to the board edges."
